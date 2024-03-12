@@ -39,7 +39,6 @@ const getColourSize = ( image, matchValue , offset , startX , startZ ) => {
 		sizeZ++;
 	}
 	
-	
 	areaCoverage[ offset ].push({
 		startX,
 		startZ,

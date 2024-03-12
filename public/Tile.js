@@ -46,7 +46,7 @@ export class Tile {
 		geo.computeVertexNormals();
 		
 		const mat = new MeshStandardMaterial({
-			color: materialIndex === 0 ? 0x000000 : 0xff0000,
+			color: materialIndex *128 *48,
 			wireframe: false,
 		});
 		
