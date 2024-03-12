@@ -41,7 +41,7 @@ const init3d = async () => {
     G.environmentMap.minFilter = LinearMipMapLinearFilter;
     G.scene.background = G.environmentMap;
     
-    G.ambientLight = new AmbientLight( 0xaaaaaa , 1.5 );
+    G.ambientLight = new AmbientLight( 0x666666 , 1.5 );
     G.scene.add( G.ambientLight );
     
     G.sunLight = new DirectionalLight( 0xffffff , 0.5 );

@@ -9,33 +9,33 @@ const analyseMap = ( image ) => {
 			const index = ((z*image.width)+x)*4;
 			const floor = image.data[ index + 0 ];
 			const wall = image.data[ index + 1 ];
-			const object = image.data[ index + 2 ];
+			const pattern = image.data[ index + 2 ];
 			
-			getColourSize( image, floor , 0 , x , z );
-			getColourSize( image, wall , 1 , x , z );
+			getColourSize( image, floor , 0 , x , z , undefined );
+			getColourSize( image, wall , 1 , x , z , pattern );
 		}
 	}
 	
 	return areaCoverage;
 }
 
-const getColourSize = ( image, matchValue , offset , startX , startZ ) => {
+const getColourSize = ( image, matchValue , offset , startX , startZ, pattern ) => {
 	
 	if( isInCoverage( offset, startX, startZ ) ) return false;
 
 	let size = 1;
-	while( checkBoxStrips( image, matchValue, offset, startX, startZ , size , size ) ) {
+	while( checkBoxStrips( image, matchValue, offset, startX, startZ , size , size, pattern ) ) {
 		size++;
 	}
 	
 	let sizeX = size;
 	let sizeZ = size;
 	
-	while( checkZstrips( image, matchValue, offset, startX+sizeX, startZ , sizeZ -1 ) ) {
+	while( checkZstrips( image, matchValue, offset, startX+sizeX, startZ , sizeZ -1, pattern ) ) {
 		sizeX++;
 	}
 
-	while( checkXstrips( image, matchValue, offset, startX, startZ+sizeZ , sizeX-1 ) ) {
+	while( checkXstrips( image, matchValue, offset, startX, startZ+sizeZ , sizeX -1, pattern ) ) {
 		sizeZ++;
 	}
 	
@@ -44,12 +44,13 @@ const getColourSize = ( image, matchValue , offset , startX , startZ ) => {
 		startZ,
 		sizeX,
 		sizeZ,
+		pattern,
 		tile: matchValue,
 	});
 	
 }
 
-const checkXstrips = ( image, matchValue , offset , startX , startZ , size ) => {
+const checkXstrips = ( image, matchValue , offset , startX , startZ , size, pattern ) => {
 	
 	for( let x=startX ; x<=startX+size ; x++ ) {
 		const z = startZ;
@@ -62,12 +63,20 @@ const checkXstrips = ( image, matchValue , offset , startX , startZ , size ) => 
 		const index = ((z*image.width)+x)*4;
 		const tile = image.data[ index+offset ];
 		if( tile !== matchValue ) return false;
+		
+		if( pattern ) {
+			const targetPattern = image.data[ index+2 ];
+			if( pattern !== targetPattern ) {
+				console.log( pattern , targetPattern , 'XXXX' );
+				return false;
+			}
+		}
 	}	
 	
 	return true;
 }
 
-const checkZstrips = ( image, matchValue , offset , startX , startZ , size ) => {
+const checkZstrips = ( image, matchValue , offset , startX , startZ , size, pattern ) => {
 
 	for( let z=startZ ; z<=startZ+size ; z++ ) {
 		const x = startX;
@@ -80,15 +89,23 @@ const checkZstrips = ( image, matchValue , offset , startX , startZ , size ) => 
 		const index = ((z*image.width)+x)*4;
 		const tile = image.data[ index+offset ];
 		if( tile !== matchValue ) return false;
+		
+		if( pattern ) {
+			const targetPattern = image.data[ index+2 ];
+			if( pattern !== targetPattern ) {
+				console.log( pattern, targetPattern , 'ZZZZ' );
+				return false;
+			}
+		}
 	}
 	
 	return true;
 }
 
-const checkBoxStrips = ( image, matchValue , offset , startX , startZ , sizeX , sizeZ ) => {
+const checkBoxStrips = ( image, matchValue , offset , startX , startZ , sizeX , sizeZ, pattern ) => {
 	
-	if( checkXstrips( image, matchValue , offset , startX , startZ+sizeZ , sizeX ) ) {
-		if( checkZstrips( image, matchValue , offset , startX+sizeX , startZ , sizeX ) ) {
+	if( checkXstrips( image, matchValue , offset , startX , startZ+sizeZ , sizeX, pattern ) ) {
+		if( checkZstrips( image, matchValue , offset , startX+sizeX , startZ , sizeX, pattern ) ) {
 			return true;
 		}
 	}
