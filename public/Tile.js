@@ -1,8 +1,9 @@
 import {
 	BufferAttribute, 
 	BufferGeometry,
+	ExtrudeGeometry,
 	
-	MeshBasicMaterial,
+	MeshStandardMaterial,
 	Mesh,
 } from 'three';
 
@@ -42,8 +43,9 @@ export class Tile {
 		const position = new BufferAttribute( new Float32Array(vertices) , 3 )
 		const geo = new BufferGeometry();
 		geo.setAttribute( 'position' , position );
+		geo.computeVertexNormals();
 		
-		const mat = new MeshBasicMaterial({
+		const mat = new MeshStandardMaterial({
 			color: materialIndex === 0 ? 0x000000 : 0xff0000,
 			wireframe: false,
 		});
@@ -51,7 +53,6 @@ export class Tile {
 		const mesh = new Mesh( geo , mat );
 		mesh.position.set( this.x , 0 , this.z );
 		G.scene.add( mesh );
-		console.log( geo );
 		
 	}
 

@@ -12,6 +12,7 @@ const analyseMap = ( image ) => {
 			const object = image.data[ index + 2 ];
 			
 			getColourSize( image, floor , 0 , x , z );
+			getColourSize( image, wall , 1 , x , z );
 		}
 	}
 	
