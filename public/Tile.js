@@ -1,7 +1,6 @@
 import {
 	BufferAttribute, 
 	BufferGeometry,
-	ExtrudeGeometry,
 	
 	MeshStandardMaterial,
 	Mesh,
@@ -19,7 +18,7 @@ export class Tile {
 		});
 		this.worker.onmessage = (e) => {
 			if( e.data.type === 'tileSurface' ) {
-				this.buildSurface(e.data.materialIndex , e.data.vertices);
+				this.buildSurface(e.data.materialIndex , e.data.vertices, e.data.uv);
 			}
 		}
 		
@@ -38,19 +37,20 @@ export class Tile {
 		this.map.src = `maps/tile-${this.x}-${this.z}.png`;
 	}
 	
-	buildSurface( materialIndex , vertices) {
+	buildSurface( materialIndex , vertices, uvs ) {
 		
-		const position = new BufferAttribute( new Float32Array(vertices) , 3 )
 		const geo = new BufferGeometry();
+		
+		const position = new BufferAttribute( new Float32Array(vertices) , 3 );
 		geo.setAttribute( 'position' , position );
 		geo.computeVertexNormals();
 		
-		const mat = new MeshStandardMaterial({
-			color: materialIndex *128 *48,
-			wireframe: false,
-		});
-		
-		const mesh = new Mesh( geo , mat );
+		if( uvs ) {
+			const uv = new BufferAttribute( new Float32Array(uvs) , 2 );
+			geo.setAttribute( 'uv' , uv );
+		}
+		console.log( materialIndex , G.materialCache.index( materialIndex ) );
+		const mesh = new Mesh( geo , G.materialCache.index( materialIndex ) );
 		mesh.position.set( this.x , 0 , this.z );
 		G.scene.add( mesh );
 		

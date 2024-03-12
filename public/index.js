@@ -16,6 +16,7 @@ import { GLTFLoader } from 'jsm/loaders/GLTFLoader.js';
 
 import { G } from './G.js';
 import { Tile } from './Tile.js';
+import { MaterialCache } from './materials/MaterialCache.js';
 
 const init3d = async () => {
     
@@ -50,6 +51,7 @@ const init3d = async () => {
     G.texture = new TextureLoader();
     G.gltf = new GLTFLoader();
         
+	G.materialCache = new MaterialCache();
 	G.tile = new Tile(0,0);	
 		
     G.renderer = new WebGLRenderer({ antialias: true, canvas: document.getElementById('ThreeD') });
