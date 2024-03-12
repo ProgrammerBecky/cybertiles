@@ -1,8 +1,3 @@
-import {
-	Shape,
-	ExtrudeGeometry,
-} from './../node_modules/three/src/Three.js';
-
 const CELL_SIZE = 0.5;
 const CELL_HEIGHT = 10;
 
