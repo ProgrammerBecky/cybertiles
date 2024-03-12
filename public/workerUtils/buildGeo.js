@@ -1,4 +1,4 @@
-const CELL_SIZE = 0.5;
+const CELL_SIZE = 0.25;
 const CELL_HEIGHT = 10;
 const UV_SCALE = 1/16;
 
