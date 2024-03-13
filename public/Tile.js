@@ -49,7 +49,7 @@ export class Tile {
 			const uv = new BufferAttribute( new Float32Array(uvs) , 2 );
 			geo.setAttribute( 'uv' , uv );
 		}
-		console.log( materialIndex , G.materialCache.index( materialIndex ) );
+		
 		const mesh = new Mesh( geo , G.materialCache.index( materialIndex ) );
 		mesh.position.set( this.x , 0 , this.z );
 		G.scene.add( mesh );
