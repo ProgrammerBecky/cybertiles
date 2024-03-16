@@ -16,11 +16,12 @@ import { GLTFLoader } from 'jsm/loaders/GLTFLoader.js';
 
 import { G } from './G.js';
 import { Tile } from './Tile.js';
+import { World } from './World.js';
 import { MaterialCache } from './materials/MaterialCache.js';
 
 const init3d = async () => {
     
-    G.camera = new PerspectiveCamera( 45 , window.innerWidth / window.innerHeight , 1 , 768 );
+    G.camera = new PerspectiveCamera( 45 , window.innerWidth / window.innerHeight , 1 , 76800 );
     G.camera.position.y = 100;
     
     G.scene = new Scene();
@@ -52,7 +53,8 @@ const init3d = async () => {
     G.gltf = new GLTFLoader();
         
 	G.materialCache = new MaterialCache();
-	G.tile = new Tile(0,0);	
+	//G.tile = new Tile(0,0);	
+	G.world = new World();
 		
     G.renderer = new WebGLRenderer({ antialias: true, canvas: document.getElementById('ThreeD') });
     G.renderer.setPixelRatio( window.devicePixelRatio );
